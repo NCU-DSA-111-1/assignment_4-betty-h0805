@@ -3,8 +3,6 @@
 #include<math.h>
 #include<string.h>
 
-#define ROW 7
-#define COL 7
 #define SIZE 1024
 
 struct Cube{
@@ -29,31 +27,26 @@ Cube pop(Stack* ps);
 int DFS(Stack* ps, int i, int j);
 void DFS2(Stack* ps, int i, int j);
 void mark(Stack* ps, int i, int j);
+void loadMap();
 
-int MAP[ROW][COL] = { 
-	{-1,-1,-1,-1,-1,-1,-1},
-	{0,0,1,0,0,0,-1},
-	{-1,0,1,1,1,0,-1},
-	{-1,0,0,0,1,0,-1},
-	{-1,1,1,0,1,0,-1},
-	{-1,0,0,0,0,0,0},
-	{-1,-1,-1,-1,-1,-1,-1} };
+int ROW = 0, COL = 0;
+int MAP[SIZE][SIZE];
 
 const int xs = 1, ys = 0, xe = ROW -2, ye = COL -1;
 
 int main(){
 	Stack stack;
 
+	loadMap();
 	printMap();
 	DFS2(&stack, xs, ys);
-
 	return 0;
 }
 
 void printMap() {
 	for (int i = 0; i < ROW; i++) {
 		for (int j = 0; j < COL; j++) {
-			if (MAP[i][j] == 1 || MAP[i][j] == -1) {
+			if (MAP[i][j] == 1 || MAP[i][j] == 3) {
 				printf("#");
 			}
 			else if (MAP[i][j] == 2) {
@@ -163,4 +156,20 @@ void mark(Stack *ps, int i, int j) {
 	visited.col = j;
 	MAP[visited.row][visited.col] = 2;
 	push(ps,visited);
+}
+
+void loadMap(){
+	FILE *fptr = NULL;
+
+	fptr = fopen("maze.txt","r");
+
+	fscanf(fptr,"%d", &ROW);
+	fscanf(fptr,"%d", &COL);
+
+	for (int i = 0; i< ROW; i++){
+		for (int j = 0; j< ROW; j++){
+			fscanf(fptr,"%d",&MAP[i][j]);
+		}
+	}
+	fclose(fptr);
 }

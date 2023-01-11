@@ -4,19 +4,26 @@
 #include<string.h>
 #include <time.h>
 
-# define ROW 33
-# define COL 33
+# define SIZE 1024
 
 void initMap();
 void printMap();
 void DFS(int x, int y);
+void saveMap();
 
-int MAP[ROW][COL];
+int MAP[SIZE][SIZE];
+int ROW = 0, COL = 0;
 const int xs = 1, ys = 1, xe = ROW - 2, ye = COL - 2;
 
 int main(){
 
 	srand(time(NULL));
+
+	printf("Please enter the number of row:");
+	scanf("%d",&ROW);
+	printf("\n");
+	printf("Please enter the number of column:");
+	scanf("%d",&COL);
 
 	initMap();
 	printMap();
@@ -25,6 +32,7 @@ int main(){
 	MAP[1][0] = 0; /*entrance*/
 	MAP[ROW-2][COL-1] = 0; /*exit*/
 	printMap();
+    saveMap();
 
 	return 0;
 }
@@ -33,7 +41,7 @@ void initMap() {
 	for (int i = 0; i < ROW; i++) {
 		for (int j = 0; j < COL; j++) {
 			if (i == 0 || i == ROW - 1 || j == 0 || j == COL - 1) {
-				MAP[i][j] = -1;
+				MAP[i][j] = 3;
 			}
 			else {
 				MAP[i][j] = 1;
@@ -45,7 +53,7 @@ void initMap() {
 void printMap() {
 	for (int i = 0; i < ROW; i++) {
 		for (int j = 0; j < COL; j++) {
-			if (MAP[i][j] == 1 || MAP[i][j] == -1) {
+			if (MAP[i][j] == 1 || MAP[i][j] == 3) {
 				printf("#");
 			}
 			else if (MAP[i][j] == 2) {
@@ -99,4 +107,20 @@ void DFS(int x, int y) {
 		}
 		
 	}
+}
+
+void saveMap(){
+    FILE *fptr = NULL;
+    fptr = fopen("maze.txt","w");
+
+    fprintf(fptr,"%d\n",ROW);
+	fprintf(fptr,"%d\n",COL);
+
+    for (int i = 0; i< ROW; i++){
+        for (int j = 0; j < COL; j++){
+            fprintf(fptr,"%d ",MAP[i][j]);
+        }
+    }
+
+    fclose(fptr);
 }
