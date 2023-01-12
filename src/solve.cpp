@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<math.h>
 #include<string.h>
+#include <time.h>
 
 #define SIZE 1024
 
@@ -44,12 +45,16 @@ int main() {
 
 	loadMap();
 	
-	
+	clock_t t1,t2;
+	t1 = clock();
 	init();
 
 	printMap();
 	DFS2(&stack, xs, ys);
 	printPath();
+
+	t2 = clock();
+	printf("Time Cost : %1f\n",(t2-t1)/(double)(CLOCKS_PER_SEC));
 	return 0;
 }
 
@@ -155,11 +160,11 @@ void DFS2(Stack* ps, int i, int j) {
 
 	if (p.row == xe && p.col == ye) {
 		path[p.row][p.col] = 2;
-		printf("(%d, %d)\n", p.row, p.col);
+		/*printf("(%d, %d)\n", p.row, p.col);*/
 		while (predecessor[p.row][p.col].row != -1) {
 			p = predecessor[p.row][p.col];
 			path[p.row][p.col] = 2;
-			printf("(%d, %d)\n", p.row, p.col);
+			/*printf("(%d, %d)\n", p.row, p.col);*/
 		}
 	}
 	else {

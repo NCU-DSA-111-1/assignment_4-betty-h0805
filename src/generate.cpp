@@ -25,6 +25,9 @@ int main(){
 	printf("Please enter the number of column:");
 	scanf("%d",&COL);
 
+	clock_t t1,t2;
+	t1 = clock();
+
 	initMap();
 	printMap();
 	DFS(xs, ys);
@@ -34,6 +37,9 @@ int main(){
 	printMap();
     saveMap();
 
+	t2 = clock();
+
+	printf("Time Cost : %1f\n",(t2-t1)/(double)(CLOCKS_PER_SEC));
 	return 0;
 }
 
